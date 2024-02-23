@@ -1,18 +1,20 @@
+## loading libraries and data
 library(tidytuesdayR)
 library(dplyr)
 library(tidyverse)
 library(ggthemes)
 library(scales)
 
-library(tokenizers) #convert natural language text into tokens
 
 tuesdata <- tidytuesdayR::tt_load(2024, week = 8)
 
+## creating variable for cycles
 isc_grants <- tuesdata$isc_grants
 isc_grants <- isc_grants %>%
   mutate(Cycle = case_when(group == 1 ~ "Spring Cycle",
                            group == 2 ~ "Fall Cycle"))
 
+##plotting the bar graph
 ggplot(isc_grants, aes(x = year, y = funded, fill = Cycle)) +
   geom_bar(stat = "identity", width = 0.70) +
   labs(title = "ISC Grants Funding over the Years",
@@ -26,5 +28,3 @@ ggplot(isc_grants, aes(x = year, y = funded, fill = Cycle)) +
   theme_minimal()+
   theme(legend.position = "bottom",
         plot.title = element_text(size = 20, face = "bold"))
-
-ggsave(filename = "ttw.jpg")
